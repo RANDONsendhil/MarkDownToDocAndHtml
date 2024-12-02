@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 class ConvertGsscData:
     jsonData = None
     ret = ""
-    output_file = "article.docx"
+    output_file = "application_1.docx"
 
     def __init__(self):
         _path = "REQUETES/application_1.json"
