@@ -13,17 +13,14 @@ import os
 class ConvertGsscData:
     jsonData = None
     ret = ""
-    output_file = "application_3.docx"
-    folder_path = "jsonToExtract"
-    folderOutput_path = "extracted"
 
-    def __init__(self):
-        print(self.getFilesList(self.folder_path))
-        chunk = [i for i in (self.getFilesList(self.folder_path))]
+    def __init__(self, inputFile_path, outputFile_path):
+        print(self.getFilesList(inputFile_path))
+        chunk = [i for i in (self.getFilesList(inputFile_path))]
         try:
-            for file in self.getFilesList(self.folder_path):
-                self.jsonData = self.check_pdf_field(f"{self.folder_path}/{file}")
-                self.extractData(f"{self.folderOutput_path}/{file.split(".")[0]}")
+            for file in self.getFilesList(inputFile_path):
+                self.jsonData = self.check_pdf_field(f"{inputFile_path}/{file}")
+                self.extractData(f"{outputFile_path}/{file.split(".")[0]}")
         except FileNotFoundError:
             print(f"The file {chunk} was not found!")
 
@@ -36,6 +33,16 @@ class ConvertGsscData:
         return file_list
 
     def extractData(self, output_file):
+        added_titles = set()
+        for i in self.jsonData[2]["data"]:
+            if i["appName"] not in added_titles:
+                added_titles.add(i["appName"])
+                self.filter_and_sort_by_appname(i["appName"])
+        html_content = markdown.markdown(self.ret)
+        self.convertToHtmlContent(html_content, f"{output_file}.html")
+        self.convertToDoc(html_content, f"{output_file}.docx")
+
+    def extractData_54_56(self, output_file):
         added_titles = set()
         for i in self.jsonData[2]["data"]:
             if i["appName"] not in added_titles:
@@ -58,23 +65,24 @@ class ConvertGsscData:
         extracted_data = []
         for entry in self.jsonData[2]["data"]:
             if entry["appName"] == app_name:
+                nom = entry.get("nom", "")
                 extracted_data.append(
                     {
                         "appName": entry["appName"],
-                        "nom": entry["nom"],
+                        "nom": nom,
                         "contenu": entry["contenu"],
                     }
                 )
-
         # Sort the filtered data by 'nom'
         sorted_data = sorted(extracted_data, key=lambda x: x["nom"])
 
         # Display the sorted data
         for item in sorted_data:
             # encoded_string = dirty_string.encode("utf-8", "ignore")
+            nom = item.get("nom", "")
             self.ret += (
                 f"\n#{self.remove_characters(item['appName'])}"
-                f"\n#{self.remove_characters(item['nom'])}"
+                f"\n# {nom}"
                 f"\n{self.remove_characters(item['contenu'])}"
             )
 
@@ -143,7 +151,15 @@ class ConvertGsscData:
         # Save the HTML content to a file
         with open(output_html, "w", encoding="utf-8") as f:
             f.write(html_page)
-        print("Markdown has been converted to an HTML page: article_01.html")
+        print(f"Markdown has been converted to an HTML page: {output_html}")
 
 
-ConvertGsscData()
+# End of class
+
+
+input_file_1_3 = "jsonToExtract_1_3"
+input_file_54_56 = "jsonToExtract_54_56"
+folderOutput_path = "extracted"
+
+ConvertGsscData(input_file_1_3, folderOutput_path)
+ConvertGsscData(input_file_54_56, folderOutput_path)
