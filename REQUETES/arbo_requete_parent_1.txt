@@ -1,0 +1,12 @@
+Requête parent 1 
+sql get data from table arbo where parent  = 1
+then match id_noeud from arbo table with noeud column from table lienarticlenoued
+then match article column from table lienarticlenoeud with id_article from table article
+and displya data
+
+Without Name
+SELECT arbo.*, lienarticlenoeud.*, article.* FROM arbo JOIN lienarticlenoeud ON arbo.id_noeud = lienarticlenoeud.noeud JOIN article ON lienarticlenoeud.article = article.id_article WHERE arbo.parent = 1
+
+With Name
+SELECT arbo.nom AS appName, lienarticlenoeud.*, article.* FROM arbo JOIN lienarticlenoeud ON arbo.id_noeud = lienarticlenoeud.noeud JOIN article ON lienarticlenoeud.article = article.id_article WHERE arbo.parent = 1
+
