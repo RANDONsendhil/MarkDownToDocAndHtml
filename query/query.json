@@ -1,0 +1,20 @@
+{
+  "queries": [
+    {
+      "appName": "App1",
+      "query": "SELECT arbo.nom AS appName, lienarticlenoeud.*, article.* FROM arbo JOIN lienarticlenoeud ON arbo.id_noeud = lienarticlenoeud.noeud JOIN article ON lienarticlenoeud.article = article.id_article WHERE arbo.parent = 1"
+    },
+    {
+      "appName": "App3",
+      "query": "SELECT arbo.nom AS appName, lienarticlenoeud.*, article.* FROM arbo JOIN lienarticlenoeud ON arbo.id_noeud = lienarticlenoeud.noeud JOIN article ON lienarticlenoeud.article = article.id_article WHERE arbo.parent = 3"
+    },
+    {
+      "appName": "App54",
+      "query": "SELECT arbo.nom AS appName, lienarticlenoeud.*, article.* FROM arbo JOIN lienarticlenoeud ON arbo.id_noeud = lienarticlenoeud.noeud JOIN article ON lienarticlenoeud.article = article.id_article WHERE arbo.parent = 54"
+    },
+    {
+      "appName": "App56",
+      "query": "SELECT arbo.nom AS appName, lienarticlenoeud.*, article.* FROM arbo JOIN lienarticlenoeud ON arbo.id_noeud = lienarticlenoeud.noeud JOIN article ON lienarticlenoeud.article = article.id_article WHERE arbo.parent = 56"
+    }
+  ]
+}
